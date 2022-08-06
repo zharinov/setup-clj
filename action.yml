@@ -24,8 +24,6 @@ inputs:
     default: ${{ github.token }}
     required: false
 
-  cache-key:
-    required: true
 runs:
   using: composite
   steps:
@@ -44,11 +42,11 @@ runs:
 
     - name: Package cache
       uses: actions/cache@v3.0.6
-      # if: ${{ inputs.dep-files-hash }}
+      if: ${{ hashFiles('**/project.clj', '**/deps.edn', '**/bb.edn', '**/shadow-cljs.edn') }}
       with:
         path: |
           ~/.m2/repository
           ~/.gitlibs
           ~/.deps.clj
-        key: ${{ inputs.cache-key }}
+        key: ${{ hashFiles('**/project.clj', '**/deps.edn', '**/bb.edn', '**/shadow-cljs.edn') }}
         restore-keys: ${{ inputs.cache-key }}
