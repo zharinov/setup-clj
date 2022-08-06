@@ -1,14 +1,15 @@
 name: "Setup Clojure tooling"
 description: "Install Java, Clojure CLI and Babashka"
 inputs:
+  # Clojure tooling
   # See: https://github.com/DeLaGuardo/setup-clojure/blob/main/action.yml
-  cli:
+  clojure-cli:
     description: "Clojure CLI version to install"
-  lein:
+  leiningen:
     description: "Leiningen build tool version to install"
   boot:
     description: "Boot build tool version to install"
-  bb:
+  babashka:
     description: 'Babashka scripting tool version to install'
   clj-kondo:
     description: "Clj-kondo linting tool version to install"
@@ -27,12 +28,12 @@ runs:
   steps:
     - name: Setup Clojure
       uses: DeLaGuardo/setup-clojure@9.3
-      if: ${{ inputs.cli || inputs.lein || inputs.boot || inputs.bb || inputs.clj-kondo || inputs.cljstyle || inputs.zprint }}
+      if: ${{ inputs.clojure-cli || inputs.leiningen || inputs.boot || inputs.babashka || inputs.clj-kondo || inputs.cljstyle || inputs.zprint }}
       with:
-        cli: ${{ inputs.cli }}
-        lein: ${{ inputs.lein }}
+        cli: ${{ inputs.clojure-cli }}
+        lein: ${{ inputs.leiningen }}
         boot: ${{ inputs.boot }}
-        bb: ${{ inputs.bb }}
+        bb: ${{ inputs.babashka }}
         clj-kondo: ${{ inputs.clj-kondo }}
         cljstyle: ${{ inputs.cljstyle }}
         zprint: ${{ inputs.zprint }}
