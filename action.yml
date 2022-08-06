@@ -10,7 +10,7 @@ inputs:
   boot:
     description: "Boot build tool version to install"
   babashka:
-    description: 'Babashka scripting tool version to install'
+    description: "Babashka scripting tool version to install"
   clj-kondo:
     description: "Clj-kondo linting tool version to install"
   cljstyle:
@@ -22,6 +22,17 @@ inputs:
       To avoid rate limit errors, provide `secrets.GITHUB_TOKEN` value to this field.
       More info: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
     default: ${{ github.token }}
+    required: false
+
+  # Cache
+  dep-files:
+    description: >+
+      Files containing dependencies
+    default:
+      - "**/project.clj"
+      - "**/deps.edn"
+      - "**/bb.edn"
+      - "**/shadow-cljs.edn"
     required: false
 runs:
   using: composite
@@ -46,5 +57,5 @@ runs:
           ~/.m2/repository
           ~/.gitlibs
           ~/.deps.clj
-        key: cljdeps-${{ hashFiles('project.clj', 'deps.edn', 'bb.edn') }}
+        key: cljdeps-${{ hashFiles(...inputs.dep-files) }}
         restore-keys: cljdeps-
