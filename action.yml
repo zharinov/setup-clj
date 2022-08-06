@@ -27,11 +27,12 @@ runs:
   steps:
     - name: Setup Clojure
       uses: DeLaGuardo/setup-clojure@9.3
-      if: ${{ inputs.cli || inputs.lein || inputs.boot || inputs.clj-kondo || inputs.cljstyle || inputs.zprint }}
+      if: ${{ inputs.cli || inputs.lein || inputs.boot || inputs.bb || inputs.clj-kondo || inputs.cljstyle || inputs.zprint }}
       with:
         cli: ${{ inputs.cli }}
         lein: ${{ inputs.lein }}
         boot: ${{ inputs.boot }}
+        bb: ${{ inputs.bb }}
         clj-kondo: ${{ inputs.clj-kondo }}
         cljstyle: ${{ inputs.cljstyle }}
         zprint: ${{ inputs.zprint }}
