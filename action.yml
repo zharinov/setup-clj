@@ -25,14 +25,10 @@ inputs:
     required: false
 
   # Cache
-  dep-files:
+  dep-files-pattern:
     description: >+
       Files containing dependencies
-    default:
-      - "**/project.clj"
-      - "**/deps.edn"
-      - "**/bb.edn"
-      - "**/shadow-cljs.edn"
+    default: "**/{project.clj,deps.edn,bb.edn,shadow-cljs.edn}"
     required: false
 runs:
   using: composite
@@ -57,5 +53,5 @@ runs:
           ~/.m2/repository
           ~/.gitlibs
           ~/.deps.clj
-        key: cljdeps-${{ hashFiles(...inputs.dep-files) }}
-        restore-keys: cljdeps-
+        key: clj-deps-${{ hashFiles(inputs.dep-files-pattern) }}
+        restore-keys: clj-deps-
