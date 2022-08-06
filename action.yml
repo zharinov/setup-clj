@@ -49,4 +49,4 @@ runs:
           ~/.gitlibs
           ~/.deps.clj
         key: clojure-deps-${{ hashFiles('**/project.clj', '**/deps.edn', '**/bb.edn', '**/shadow-cljs.edn') || 'default-cache' }}
-        # restore-keys: clojure-deps-default-cache
+        restore-keys: clojure-deps-default-cache
