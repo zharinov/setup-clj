@@ -47,5 +47,5 @@ runs:
           ~/.m2/repository
           ~/.gitlibs
           ~/.deps.clj
-        key: clj-deps-${{ hashFiles('**/project.clj', '**/deps.edn', '**/bb.edn', '**/shadow-cljs.edn') }}
+        key: clj-deps-${{ hashFiles('deps.edn') }}
         restore-keys: clj-deps-
