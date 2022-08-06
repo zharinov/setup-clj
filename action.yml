@@ -8,6 +8,8 @@ inputs:
     description: "Leiningen build tool version to install"
   boot:
     description: "Boot build tool version to install"
+  bb:
+    description: 'Babashka scripting tool version to install'
   clj-kondo:
     description: "Clj-kondo linting tool version to install"
   cljstyle:
