@@ -54,5 +54,5 @@ runs:
           ~/.m2/repository
           ~/.gitlibs
           ~/.deps.clj
-        key: clj-deps-${{ dep-files-hash }}
+        key: clj-deps-${{ inputs.dep-files-hash }}
         restore-keys: clj-deps-
