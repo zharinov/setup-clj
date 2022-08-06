@@ -28,20 +28,7 @@ inputs:
   dep-files-hash:
     description: Hash value of all project files describing Clojure dependencies
       Needs for cache key creation.
-    default: ${{ 
-        hashFiles(
-          'project.clj',
-          '**/project.clj',
-          
-          'deps.edn',
-          '**/deps.edn',
-          'bb.edn',
-          '**/bb.edn',
-          
-          'shadow-cljs.edn',
-          '**/shadow-cljs.edn',
-        )
-      }}
+    default: ${{ hashFiles('**/project.clj', '**/deps.edn', '**/bb.edn', '**/shadow-cljs.edn') }}
     required: false
 runs:
   using: composite
