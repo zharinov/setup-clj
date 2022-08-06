@@ -23,6 +23,9 @@ inputs:
       More info: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
     default: ${{ github.token }}
     required: false
+
+  cache-key:
+    required: true
 runs:
   using: composite
   steps:
@@ -47,5 +50,5 @@ runs:
           ~/.m2/repository
           ~/.gitlibs
           ~/.deps.clj
-        key: clj-deps-${{ hashFiles('deps.edn') }}
-        restore-keys: clj-deps-
+        key: ${{ inputs.cache-key }}
+        restore-keys: ${{ inputs.cache-key }}
