@@ -1,6 +1,7 @@
 name: "Setup Clojure tooling"
 description: "Install Java, Clojure CLI and Babashka"
 inputs:
+  # See: https://github.com/DeLaGuardo/setup-clojure/blob/main/action.yml
   cli:
     description: "Clojure CLI version to install"
   lein:
@@ -10,9 +11,9 @@ inputs:
   clj-kondo:
     description: "Clj-kondo linting tool version to install"
   cljstyle:
-    description: "cljstyle formatting tool version to install"
+    description: "Cljstyle formatting tool version to install"
   zprint:
-    description: "zprint formatting tool version to install"
+    description: "Zprint formatting tool version to install"
   github-token:
     description: >+
       To avoid rate limit errors, provide `secrets.GITHUB_TOKEN` value to this field.
@@ -33,3 +34,13 @@ runs:
         cljstyle: ${{ inputs.cljstyle }}
         zprint: ${{ inputs.zprint }}
         github-token: ${{ inputs.github-token }}
+
+    - name: Package cache
+      uses: actions/cache@v3.0.6
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gitlibs
+          ~/.deps.clj
+        key: cljdeps-${{ hashFiles('project.clj', 'deps.edn', 'bb.edn') }}
+        restore-keys: cljdeps-
