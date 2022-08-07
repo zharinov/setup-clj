@@ -74,8 +74,9 @@ runs:
 
     - name: Cache GraalVM tooling
       if: ${{ inputs.java == 'graalvm' }}
-      path: "${{ runner.tool_cache }}/graalvm-?e-java*-${{ runner.os }}/*/${{ runner.arch }}/graalvm-?e-java*-*/"
-      key: graalvm-cache-${{ runner.os }}-${{ runner.arch }}-java${{ inputs.java-version }}-graalvm${{ inputs.graalvm-version }}
+      with:
+        path: "${{ runner.tool_cache }}/graalvm-?e-java*-${{ runner.os }}/*/${{ runner.arch }}/graalvm-?e-java*-*/"
+        key: graalvm-cache-${{ runner.os }}-${{ runner.arch }}-java${{ inputs.java-version }}-graalvm${{ inputs.graalvm-version }}
 
     - name: Setup GraalVM
       uses: graalvm/setup-graalvm@v1
