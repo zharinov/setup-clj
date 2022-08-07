@@ -72,12 +72,14 @@ runs:
         distribution: ${{ inputs.java }}
         java-version: ${{ inputs.java-version }}
 
-    # - name: Cache GraalVM tooling
-    #   if: ${{ inputs.java == 'graalvm' }}
-    #   uses: actions/cache@v3.0.6
-    #   with:
-    #     path: ${{ runner.tool_cache }}/graalvm-?e-java*-*/*/*/graalvm-?e-java*-*/
-    #     key: graalvm-cache-${{ runner.os }}-${{ runner.arch }}-java${{ inputs.java-version }}-graalvm${{ inputs.graalvm-version }}
+    - name: Cache GraalVM tooling
+      if: ${{ inputs.java == 'graalvm' }}
+      uses: actions/cache@v3.0.6
+      with:
+        path: |
+          ${{ runner.tool_cache }}/graalvm-?e-java*-*/*/*/graalvm-?e-java*-*/
+          ${{ runner.tool_cache }}/graalvm-*/**/*.complete
+        key: graalvm-cache-${{ runner.os }}-${{ runner.arch }}-java${{ inputs.java-version }}-graalvm${{ inputs.graalvm-version }}
 
     - name: Setup GraalVM
       uses: graalvm/setup-graalvm@v1
@@ -87,9 +89,6 @@ runs:
         java-version: ${{ inputs.java-version }}
         components: ${{ inputs.graalvm-components }}
         github-token: ${{ inputs.github-token }}
-
-    - run: ls ${{ runner.tool_cache }}/graalvm-*/**/*.complete
-      shell: bash
 
     - name: Setup Clojure
       uses: DeLaGuardo/setup-clojure@9.3
