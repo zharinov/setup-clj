@@ -207,6 +207,9 @@ runs:
         distribution: ${{ inputs.java }}
         java-version: ${{ inputs.java-version }}
 
+    - run: ls ${{ steps.cache-vars.outputs.java-path-complete-mark }}
+      shell: bash
+
     - name: Setup GraalVM
       uses: graalvm/setup-graalvm@v1
       if: ${{ inputs.java == 'graalvm' }}
