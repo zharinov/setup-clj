@@ -74,7 +74,7 @@ runs:
 
     - name: Setup GraalVM
       uses: graalvm/setup-graalvm@v1
-      if: ${{ inputs.java === 'graalvm' }}
+      if: ${{ inputs.java == 'graalvm' }}
       with:
         version: ${{ inputs.graalvm-version }}
         java-version: ${{ inputs.java-version }}
