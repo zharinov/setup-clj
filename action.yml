@@ -86,8 +86,8 @@ runs:
       uses: actions/cache@v3.0.6
       with:
         path: |
-          ${{ runner.tool_cache }}/graalvm-?e-java*-${{ inputs.os }}/*/${{ inputs.arch }}/graalvm-?e-java*-*/
-          ${{ runner.tool_cache }}/graalvm-?e-java*-${{ inputs.os }}/*/${{ inputs.arch }}.complete
+          ${{ runner.tool_cache }}/graalvm-?e-java${{ inputs.java-version }}-${{ inputs.os }}/${{ inputs.graalvm-version }}/${{ inputs.arch }}/graalvm-?e-java${{ inputs.java-version}}-${{ inputs.graalvm-version }}/
+          ${{ runner.tool_cache }}/graalvm-?e-java${{ inputs.java-version }}-${{ inputs.os }}/${{ inputs.graalvm-version }}/${{ inputs.arch }}.complete
         key: graalvm-cache-java${{ inputs.java-version }}-graalvm${{ inputs.graalvm-version }}-${{ inputs.os }}-${{ inputs.arch }}
 
     - name: Setup GraalVM
