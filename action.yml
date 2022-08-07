@@ -40,12 +40,12 @@ inputs:
 runs:
   using: composite
   steps:
-    # - name: Setup Java
-    #   uses: actions/setup-java@v3.4.1
-    #   if: ${{ inputs.java }}
-    #   with:
-    #     distribution: ${{ inputs.java }}
-    #     java-version: ${{ inputs.java-version }}
+    - name: Setup Java
+      uses: actions/setup-java@v3.4.1
+      if: ${{ inputs.java }}
+      with:
+        distribution: ${{ inputs.java }}
+        java-version: ${{ inputs.java-version }}
 
     - name: Setup Clojure
       uses: DeLaGuardo/setup-clojure@9.3
