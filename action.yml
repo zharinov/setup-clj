@@ -191,24 +191,12 @@ runs:
           )
         }}"
 
-    - name: Cache Java tooling
-      if: ${{ inputs.java != 'graalvm' }}
-      uses: actions/cache@v3.0.6
-      with:
-        path: |
-          ${{ steps.cache-vars.outputs.java-path }}
-          ${{ steps.cache-vars.outputs.java-path-complete-mark }}
-        key: ${{ steps.cache-vars.outputs.java-cache-key }}
-
     - name: Setup Java
       uses: actions/setup-java@v3.4.1
       if: ${{ inputs.java && inputs.java != 'graalvm' }}
       with:
         distribution: ${{ inputs.java }}
         java-version: ${{ inputs.java-version }}
-
-    - run: ls ${{ steps.cache-vars.outputs.java-path-complete-mark }}
-      shell: bash
 
     - name: Setup GraalVM
       uses: graalvm/setup-graalvm@v1
@@ -219,8 +207,14 @@ runs:
         components: ${{ inputs.graalvm-components }}
         github-token: ${{ inputs.github-token }}
 
-    - run: ls ${{ steps.cache-vars.outputs.java-path-complete-mark }}
-      shell: bash
+    - name: Cache Java tooling
+      if: ${{ inputs.java != 'graalvm' }}
+      uses: actions/cache@v3.0.6
+      with:
+        path: |
+          ${{ steps.cache-vars.outputs.java-path }}
+          ${{ steps.cache-vars.outputs.java-path-complete-mark }}
+        key: ${{ steps.cache-vars.outputs.java-cache-key }}
 
     - name: Setup Clojure
       uses: DeLaGuardo/setup-clojure@9.3
