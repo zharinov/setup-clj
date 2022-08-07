@@ -63,14 +63,6 @@ inputs:
     default: ${{ github.token }}
     required: false
 
-  arch:
-    default: ${{ (runner.arch == 'ARM' && 'arm') || (runner.arch == 'ARM64' && 'arm64') || (runner.arch == 'X86' && 'ia32') || 'x64' }}
-    required: false
-
-  os:
-    default: ${{ (runner.os == 'macOS' && 'darwin') || (runner.os == 'Windows' && 'win32') || 'linux' }}
-    required: false
-
 runs:
   using: composite
   steps:
@@ -86,6 +78,21 @@ runs:
           inputs.java-version
         }}"
 
+        echo "::set-output name=arch::${{
+          (runner.arch == 'ARM' && 'arm')     || 
+          (runner.arch == 'ARM64' && 'arm64') || 
+          (runner.arch == 'X86' && 'ia32')    || 
+          (runner.arch == 'X64' && 'x64')     || 
+          runner.arch
+        }}
+
+        echo "::set-output name=os::${{
+          (runner.os == 'macOS' && 'darwin')  || 
+          (runner.os == 'Windows' && 'win32') || 
+          (runner.os == 'Linux' && 'linux')   || 
+          runner.os 
+        }}
+
     - name: Setup Java
       uses: actions/setup-java@v3.4.1
       if: ${{ inputs.java && inputs.java != 'graalvm' }}
@@ -98,9 +105,9 @@ runs:
       uses: actions/cache@v3.0.6
       with:
         path: |
-          ${{ runner.tool_cache }}/graalvm-?e-java${{ steps.vars.outputs.java-major-version }}-${{ inputs.os }}/${{ inputs.graalvm-version }}/${{ inputs.arch }}/graalvm-?e-java${{ steps.vars.outputs.java-major-version }}-${{ inputs.graalvm-version }}/
-          ${{ runner.tool_cache }}/graalvm-?e-java${{ steps.vars.outputs.java-major-version }}-${{ inputs.os }}/${{ inputs.graalvm-version }}/${{ inputs.arch }}.complete
-        key: graalvm-cache-java${{ steps.vars.outputs.java-major-version }}-graalvm${{ inputs.graalvm-version }}-${{ inputs.os }}-${{ inputs.arch }}
+          ${{ runner.tool_cache }}/graalvm-?e-java${{ steps.vars.outputs.java-major-version }}-${{ steps.vars.outputs.os }}/${{ inputs.graalvm-version }}/${{ steps.vars.outputs.arch }}/graalvm-?e-java${{ steps.vars.outputs.java-major-version }}-${{ inputs.graalvm-version }}/
+          ${{ runner.tool_cache }}/graalvm-?e-java${{ steps.vars.outputs.java-major-version }}-${{ steps.vars.outputs.os }}/${{ inputs.graalvm-version }}/${{ steps.vars.outputs.arch }}.complete
+        key: graalvm-cache-java${{ steps.vars.outputs.java-major-version }}-graalvm${{ inputs.graalvm-version }}-${{ steps.vars.outputs.os }}-${{ steps.vars.outputs.arch }}
 
     - name: Setup GraalVM
       uses: graalvm/setup-graalvm@v1
