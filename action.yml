@@ -148,7 +148,7 @@ runs:
               runner.tool_cache,
               steps.vars.outputs.java,
               steps.vars.outputs.java-major-version,
-              steps.vars.outputs.arch,
+              steps.vars.outputs.arch
             )
           )
         }}"
@@ -174,7 +174,7 @@ runs:
               runner.tool_cache,
               steps.vars.outputs.java,
               steps.vars.outputs.java-major-version,
-              steps.vars.outputs.arch,
+              steps.vars.outputs.arch
             )
           )
         }}"
@@ -184,7 +184,7 @@ runs:
             [
               'cache-java',
               (inputs.java == 'graalvm' && join([inputs.java-version, inputs.graalvm-version], '-')) || inputs.java-version,
-              steps.vars.outputs.os
+              steps.vars.outputs.os,
               steps.vars.outputs.arch
             ],
             '-'
