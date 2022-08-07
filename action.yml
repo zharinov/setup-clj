@@ -74,6 +74,11 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Computed values
+      id: computed
+      run: |
+        echo "::set-output name=java-major-version::${{ (startsWith(inputs.java-version, '11.') && '11') || '17' }}\n"
+
     - name: Setup Java
       uses: actions/setup-java@v3.4.1
       if: ${{ inputs.java && inputs.java != 'graalvm' }}
