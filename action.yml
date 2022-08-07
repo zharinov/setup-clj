@@ -72,6 +72,10 @@ runs:
         distribution: ${{ inputs.java }}
         java-version: ${{ inputs.java-version }}
 
+    - name: Cache GraalVM tooling
+      if: ${{ inputs.java == 'graalvm' }}
+      run: echo "${{ runner.tool_cache }}/graalvm-?e-java*-${{ runner.os }}/*/${{ runner.arch }}/graalvm-?e-java*-*/"
+
     - name: Setup GraalVM
       uses: graalvm/setup-graalvm@v1
       if: ${{ inputs.java == 'graalvm' }}
