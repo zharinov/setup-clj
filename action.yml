@@ -72,6 +72,15 @@ runs:
         distribution: ${{ inputs.java }}
         java-version: ${{ inputs.java-version }}
 
+    - name: Setup GraalVM
+      uses: graalvm/setup-graalvm@v1
+      if: ${{ inputs.java == 'graalvm' }}
+      with:
+        version: ${{ inputs.graalvm-version }}
+        java-version: ${{ inputs.java-version }}
+        components: ${{ inputs.graalvm-components }}
+        github-token: ${{ inputs.github-token }}
+
     - name: Cache GraalVM tooling
       if: ${{ inputs.java == 'graalvm' }}
       uses: actions/cache@v3.0.6
@@ -81,17 +90,8 @@ runs:
           ${{ runner.tool_cache }}/graalvm-?e-java*-*/*/*/graalvm-?e-java*-*.complete
         key: graalvm-cache-${{ runner.os }}-${{ runner.arch }}-java${{ inputs.java-version }}-graalvm${{ inputs.graalvm-version }}
 
-    - run: ls /opt/hostedtoolcache/graalvm-ce-java17-linux/22.1.0/x64/graalvm-ce-java17-22.1.0*
+    - run: ls /opt/hostedtoolcache/graalvm-ce-java17-linux/22.1.0/x64/graalvm-ce-java17-22.1.0.complete
       shell: bash
-
-    - name: Setup GraalVM
-      uses: graalvm/setup-graalvm@v1
-      if: ${{ inputs.java == 'graalvm' }}
-      with:
-        version: ${{ inputs.graalvm-version }}
-        java-version: ${{ inputs.java-version }}
-        components: ${{ inputs.graalvm-components }}
-        github-token: ${{ inputs.github-token }}
 
     - name: Setup Clojure
       uses: DeLaGuardo/setup-clojure@9.3
