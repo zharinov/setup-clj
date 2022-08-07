@@ -76,7 +76,9 @@ runs:
       if: ${{ inputs.java == 'graalvm' }}
       uses: actions/cache@v3.0.6
       with:
-        path: ${{ runner.tool_cache }}/graalvm-?e-java*-*/*/*/graalvm-?e-java*-*/
+        path: |
+          ${{ runner.tool_cache }}/graalvm-?e-java*-*/*/*/graalvm-?e-java*-*/
+          ${{ runner.tool_cache }}/graalvm-?e-java*-*/*/*/graalvm-?e-java*-*.complete
         key: graalvm-cache-${{ runner.os }}-${{ runner.arch }}-java${{ inputs.java-version }}-graalvm${{ inputs.graalvm-version }}
 
     - run: ls /opt/hostedtoolcache/graalvm-ce-java17-linux/22.1.0/x64/graalvm-ce-java17-22.1.0
