@@ -191,6 +191,14 @@ runs:
           )
         }}"
 
+    - name: Cache Java tooling
+      uses: actions/cache@v3.0.6
+      with:
+        path: |
+          ${{ steps.cache-vars.outputs.java-path }}
+          ${{ steps.cache-vars.outputs.java-path-complete-mark }}
+        key: ${{ steps.cache-vars.outputs.java-cache-key }}
+
     - name: Setup Java
       uses: actions/setup-java@v3.4.1
       if: ${{ inputs.java && inputs.java != 'graalvm' }}
@@ -206,14 +214,6 @@ runs:
         java-version: ${{ inputs.java-version }}
         components: ${{ inputs.graalvm-components }}
         github-token: ${{ inputs.github-token }}
-
-    - name: Cache Java tooling
-      uses: actions/cache@v3.0.6
-      with:
-        path: |
-          ${{ steps.cache-vars.outputs.java-path }}
-          ${{ steps.cache-vars.outputs.java-path-complete-mark }}
-        key: ${{ steps.cache-vars.outputs.java-cache-key }}
 
     - name: Setup Clojure
       uses: DeLaGuardo/setup-clojure@9.3
