@@ -182,7 +182,7 @@ runs:
         echo "::set-output name=java-cache-key::${{
           format(
             'cache-{0}-java-{1}-{2}-{3}',
-            inputs.java,
+            steps.vars.outputs.java,
             (inputs.java == 'graalvm' &&
               format('{0}-{1}', inputs.java-version, inputs.graalvm-version)
             ) || inputs.java-version,
