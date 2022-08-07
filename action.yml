@@ -76,6 +76,7 @@ runs:
   steps:
     - name: Computed values
       id: computed
+      shell: ${{ (runner.os == 'Windows' && 'pwsh') || 'bash' }}
       run: |
         echo "::set-output name=java-major-version::${{ (startsWith(inputs.java-version, '11.') && '11') || '17' }}\n"
 
