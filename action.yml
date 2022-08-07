@@ -81,46 +81,43 @@ runs:
         distribution: ${{ inputs.java }}
         java-version: ${{ inputs.java-version }}
 
-    - run: ls ${{ runner.tool_cache }}/Java/*
-      shell: bash
+    - name: Cache GraalVM tooling
+      if: ${{ inputs.java == 'graalvm' }}
+      uses: actions/cache@v3.0.6
+      with:
+        path: |
+          ${{ runner.tool_cache }}/graalvm-?e-java${{ (startsWith(inputs.java-version, '11.') && '11') || '17' }}-${{ inputs.os }}/${{ inputs.graalvm-version }}/${{ inputs.arch }}/graalvm-?e-java${{ (startsWith(inputs.java-version, '11.') && '11') || '17' }}-${{ inputs.graalvm-version }}/
+          ${{ runner.tool_cache }}/graalvm-?e-java${{ (startsWith(inputs.java-version, '11.') && '11') || '17' }}-${{ inputs.os }}/${{ inputs.graalvm-version }}/${{ inputs.arch }}.complete
+        key: graalvm-cache-java${{ (startsWith(inputs.java-version, '11.') && '11') || '17' }}-graalvm${{ inputs.graalvm-version }}-${{ inputs.os }}-${{ inputs.arch }}
 
-    # - name: Cache GraalVM tooling
-    #   if: ${{ inputs.java == 'graalvm' }}
-    #   uses: actions/cache@v3.0.6
-    #   with:
-    #     path: |
-    #       ${{ runner.tool_cache }}/graalvm-?e-java${{ inputs.java-version }}-${{ inputs.os }}/${{ inputs.graalvm-version }}/${{ inputs.arch }}/graalvm-?e-java${{ inputs.java-version}}-${{ inputs.graalvm-version }}/
-    #       ${{ runner.tool_cache }}/graalvm-?e-java${{ inputs.java-version }}-${{ inputs.os }}/${{ inputs.graalvm-version }}/${{ inputs.arch }}.complete
-    #     key: graalvm-cache-java${{ inputs.java-version }}-graalvm${{ inputs.graalvm-version }}-${{ inputs.os }}-${{ inputs.arch }}
+    - name: Setup GraalVM
+      uses: graalvm/setup-graalvm@v1
+      if: ${{ inputs.java == 'graalvm' }}
+      with:
+        version: ${{ inputs.graalvm-version }}
+        java-version: ${{ inputs.java-version }}
+        components: ${{ inputs.graalvm-components }}
+        github-token: ${{ inputs.github-token }}
 
-    # - name: Setup GraalVM
-    #   uses: graalvm/setup-graalvm@v1
-    #   if: ${{ inputs.java == 'graalvm' }}
-    #   with:
-    #     version: ${{ inputs.graalvm-version }}
-    #     java-version: ${{ inputs.java-version }}
-    #     components: ${{ inputs.graalvm-components }}
-    #     github-token: ${{ inputs.github-token }}
+    - name: Setup Clojure
+      uses: DeLaGuardo/setup-clojure@9.3
+      if: ${{ inputs.clojure-cli || inputs.leiningen || inputs.boot || inputs.babashka || inputs.clj-kondo || inputs.cljstyle || inputs.zprint }}
+      with:
+        cli: ${{ inputs.clojure-cli }}
+        lein: ${{ inputs.leiningen }}
+        boot: ${{ inputs.boot }}
+        bb: ${{ inputs.babashka }}
+        clj-kondo: ${{ inputs.clj-kondo }}
+        cljstyle: ${{ inputs.cljstyle }}
+        zprint: ${{ inputs.zprint }}
+        github-token: ${{ inputs.github-token }}
 
-    # - name: Setup Clojure
-    #   uses: DeLaGuardo/setup-clojure@9.3
-    #   if: ${{ inputs.clojure-cli || inputs.leiningen || inputs.boot || inputs.babashka || inputs.clj-kondo || inputs.cljstyle || inputs.zprint }}
-    #   with:
-    #     cli: ${{ inputs.clojure-cli }}
-    #     lein: ${{ inputs.leiningen }}
-    #     boot: ${{ inputs.boot }}
-    #     bb: ${{ inputs.babashka }}
-    #     clj-kondo: ${{ inputs.clj-kondo }}
-    #     cljstyle: ${{ inputs.cljstyle }}
-    #     zprint: ${{ inputs.zprint }}
-    #     github-token: ${{ inputs.github-token }}
-
-    # - name: Package cache
-    #   uses: actions/cache@v3.0.6
-    #   with:
-    #     path: |
-    #       ~/.m2/repository
-    #       ~/.gitlibs
-    #       ~/.deps.clj
-    #     key: clojure-deps-${{ hashFiles('**/project.clj', '**/deps.edn', '**/bb.edn', '**/shadow-cljs.edn') || 'default-cache' }}
-    #     restore-keys: clojure-deps-default-cache
+    - name: Package cache
+      uses: actions/cache@v3.0.6
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gitlibs
+          ~/.deps.clj
+        key: clojure-deps-${{ hashFiles('**/project.clj', '**/deps.edn', '**/bb.edn', '**/shadow-cljs.edn') || 'default-cache' }}
+        restore-keys: clojure-deps-default-cache
