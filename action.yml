@@ -79,10 +79,11 @@ runs:
       shell: ${{ (runner.os == 'Windows' && 'pwsh') || 'bash' }}
       run: |
         echo "::set-output name=java-major-version::${{
-          (startsWith(inputs.java-version, '8.')  && '8')   ||
+          (startsWith(inputs.java-version, '8.')  && '8')  ||
           (startsWith(inputs.java-version, '11.') && '11') ||
           (startsWith(inputs.java-version, '16.') && '16') ||
-          (startsWith(inputs.java-version, '17.') && '17') 
+          (startsWith(inputs.java-version, '17.') && '17') ||
+          inputs.java-version
         }}"
 
     - name: Setup Java
