@@ -87,7 +87,7 @@ runs:
       with:
         path: |
           ${{ runner.tool_cache }}/graalvm-?e-java*-${{ inputs.os }}/*/${{ inputs.arch }}/graalvm-?e-java*-*/
-          ${{ runner.tool_cache }}/graalvm-?e-java*-${{ inputs.os }}/**/${{ inputs.arch }}.complete
+          ${{ runner.tool_cache }}/graalvm-?e-java*-${{ inputs.os }}/*/${{ inputs.arch }}.complete
         key: graalvm-cache-java${{ inputs.java-version }}-graalvm${{ inputs.graalvm-version }}-${{ inputs.os }}-${{ inputs.arch }}
 
     - name: Setup GraalVM
