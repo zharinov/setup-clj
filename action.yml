@@ -8,24 +8,25 @@ inputs:
   #
   clojure-cli:
     description: Clojure CLI version to install
-    default: latest
+    required: false
+    default: 1.11.1.1155
   leiningen:
     description: Leiningen build tool version to install
+    required: false
   boot:
     description: Boot build tool version to install
+    required: false
   babashka:
     description: Babashka scripting tool version to install
+    required: false
   clj-kondo:
     description: Clj-kondo linting tool version to install
+    required: false
   cljstyle:
     description: Cljstyle formatting tool version to install
+    required: false
   zprint:
     description: Zprint formatting tool version to install
-  github-token:
-    description: >+
-      To avoid rate limit errors, provide `secrets.GITHUB_TOKEN` value to this field.
-      More info: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
-    default: ${{ github.token }}
     required: false
 
   #
@@ -35,17 +36,50 @@ inputs:
   #
   java:
     default: temurin
+    required: false
   java-version:
     default: 17
+    required: false
+
+  #
+  # GraalVM tooling
+  #
+  # See: https://github.com/graalvm/setup-graalvm/blob/main/action.yml
+  #
+  graalvm-version:
+    default: 22.1.0
+    required: false
+  graalvm-components:
+    default: native-image
+    required: false
+
+  #
+  # Misc parameters
+  #
+  github-token:
+    description: >+
+      To avoid rate limit errors, you need to provide GitHub token.
+      More info: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+    default: ${{ github.token }}
+    required: false
 runs:
   using: composite
   steps:
     - name: Setup Java
       uses: actions/setup-java@v3.4.1
-      if: ${{ inputs.java }}
+      if: ${{ inputs.java && inputs.java != 'graalvm' }}
       with:
         distribution: ${{ inputs.java }}
         java-version: ${{ inputs.java-version }}
+
+    - name: Setup GraalVM
+      uses: graalvm/setup-graalvm@v1
+      if: ${{ inputs.java === 'graalvm' }}
+      with:
+        version: ${{ inputs.graalvm-version }}
+        java-version: ${{ inputs.java-version }}
+        components: ${{ inputs.graalvm-components }}
+        github-token: ${{ inputs.github-token }}
 
     - name: Setup Clojure
       uses: DeLaGuardo/setup-clojure@9.3
