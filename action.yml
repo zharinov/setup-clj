@@ -75,10 +75,14 @@ runs:
   using: composite
   steps:
     - name: Computed values
-      id: computed
+      id: var
       shell: ${{ (runner.os == 'Windows' && 'pwsh') || 'bash' }}
       run: |
-        echo "::set-output name=java-major-version::${{ (startsWith(inputs.java-version, '11.') && '11') || '17' }}\n"
+        echo "::set-output name=java-major-version::${{       \
+          (startsWith(inputs.java-version, '8.') && '8')   || \
+          (startsWith(inputs.java-version, '11.') && '11') || \
+          (startsWith(inputs.java-version, '16.') && '16') || \
+          (startsWith(inputs.java-version, '17.') && '17') }}
 
     - name: Setup Java
       uses: actions/setup-java@v3.4.1
@@ -92,9 +96,9 @@ runs:
       uses: actions/cache@v3.0.6
       with:
         path: |
-          ${{ runner.tool_cache }}/graalvm-?e-java${{ (startsWith(inputs.java-version, '11.') && '11') || '17' }}-${{ inputs.os }}/${{ inputs.graalvm-version }}/${{ inputs.arch }}/graalvm-?e-java${{ (startsWith(inputs.java-version, '11.') && '11') || '17' }}-${{ inputs.graalvm-version }}/
-          ${{ runner.tool_cache }}/graalvm-?e-java${{ (startsWith(inputs.java-version, '11.') && '11') || '17' }}-${{ inputs.os }}/${{ inputs.graalvm-version }}/${{ inputs.arch }}.complete
-        key: graalvm-cache-java${{ (startsWith(inputs.java-version, '11.') && '11') || '17' }}-graalvm${{ inputs.graalvm-version }}-${{ inputs.os }}-${{ inputs.arch }}
+          ${{ runner.tool_cache }}/graalvm-?e-java${{ steps.var.outputs.java-major-version }}-${{ inputs.os }}/${{ inputs.graalvm-version }}/${{ inputs.arch }}/graalvm-?e-java${{ steps.var.outputs.java-major-version }}-${{ inputs.graalvm-version }}/
+          ${{ runner.tool_cache }}/graalvm-?e-java${{ steps.var.outputs.java-major-version }}-${{ inputs.os }}/${{ inputs.graalvm-version }}/${{ inputs.arch }}.complete
+        key: graalvm-cache-java${{ steps.var.outputs.java-major-version }}-graalvm${{ inputs.graalvm-version }}-${{ inputs.os }}-${{ inputs.arch }}
 
     - name: Setup GraalVM
       uses: graalvm/setup-graalvm@v1
