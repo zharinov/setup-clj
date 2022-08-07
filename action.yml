@@ -79,6 +79,9 @@ runs:
         path: ${{ runner.tool_cache }}/graalvm-?e-java*-*/*/*/graalvm-?e-java*-*/
         key: graalvm-cache-${{ runner.os }}-${{ runner.arch }}-java${{ inputs.java-version }}-graalvm${{ inputs.graalvm-version }}
 
+    - run: native-image --version
+      shell: bash
+
     - name: Setup GraalVM
       uses: graalvm/setup-graalvm@v1
       if: ${{ inputs.java == 'graalvm' }}
