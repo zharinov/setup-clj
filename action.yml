@@ -216,6 +216,9 @@ runs:
         components: ${{ inputs.graalvm-components }}
         github-token: ${{ inputs.github-token }}
 
+    - run: ls ${{ steps.cache-vars.outputs.java-path-complete-mark }}
+      shell: bash
+
     - name: Setup Clojure
       uses: DeLaGuardo/setup-clojure@9.3
       if: ${{ inputs.clojure-cli || inputs.leiningen || inputs.boot || inputs.babashka || inputs.clj-kondo || inputs.cljstyle || inputs.zprint }}
