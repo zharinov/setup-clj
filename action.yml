@@ -1,5 +1,4 @@
-name: "Setup Clojure tooling"
-description: "Install Java, Clojure CLI and Babashka"
+name: "Clojure essential tooling"
 inputs:
   #
   # Clojure tooling
@@ -51,6 +50,14 @@ inputs:
     required: false
   graalvm-components:
     default: native-image
+    required: false
+  graalvm-gds-token:
+    required: false
+  graalvm-set-java-home:
+    required: false
+    default: true
+  graalvm-native-image-musl:
+    default: 'false'
     required: false
 
   #
