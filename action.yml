@@ -180,14 +180,13 @@ runs:
         }}"
 
         echo "::set-output name=java-cache-key::${{
-          join(
-            [
-              'cache-java',
-              (inputs.java == 'graalvm' && join([inputs.java-version, inputs.graalvm-version], '-')) || inputs.java-version,
-              steps.vars.outputs.os,
-              steps.vars.outputs.arch
-            ],
-            '-'
+          format(
+            'cache-java-{0}-{1}-{2}',
+            (inputs.java == 'graalvm' &&
+              format('{0}-{1}', inputs.java-version, inputs.graalvm-version)
+            ) || inputs.java-version,
+            steps.vars.outputs.os,
+            steps.vars.outputs.arch
           )
         }}"
 
