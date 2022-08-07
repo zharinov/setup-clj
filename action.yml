@@ -75,6 +75,7 @@ runs:
     - name: Cache GraalVM tooling
       if: ${{ inputs.java == 'graalvm' }}
       run: echo "${{ runner.tool_cache }}/graalvm-?e-java*-${{ runner.os }}/*/${{ runner.arch }}/graalvm-?e-java*-*/"
+      shell: bash
 
     - name: Setup GraalVM
       uses: graalvm/setup-graalvm@v1
