@@ -79,7 +79,7 @@ runs:
         path: ${{ runner.tool_cache }}/graalvm-?e-java*-*/*/*/graalvm-?e-java*-*/
         key: graalvm-cache-${{ runner.os }}-${{ runner.arch }}-java${{ inputs.java-version }}-graalvm${{ inputs.graalvm-version }}
 
-    - run: native-image --version
+    - run: ls /opt/hostedtoolcache/graalvm-ce-java17-linux/22.1.0/x64/graalvm-ce-java17-22.1.0
       shell: bash
 
     - name: Setup GraalVM
