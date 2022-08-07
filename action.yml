@@ -84,14 +84,121 @@ runs:
           (runner.arch == 'X86' && 'ia32')    || 
           (runner.arch == 'X64' && 'x64')     || 
           runner.arch
-        }}
+        }}"
 
         echo "::set-output name=os::${{
           (runner.os == 'macOS' && 'darwin')  || 
           (runner.os == 'Windows' && 'win32') || 
           (runner.os == 'Linux' && 'linux')   || 
           runner.os 
-        }}
+        }}"
+
+        echo "::set-output name=java::${{
+          (inputs.java == 'graalvm' && 'graalvm-ce')  || 
+          (inputs.java == 'temurin' && 'Temurin')     || 
+          (inputs.java == 'zulu' && 'Zulu')           || 
+          (inputs.java == 'adopt' && 'Adopt')         || 
+          (inputs.java == 'adopt-hotspot' && 'Adopt') || 
+          (inputs.java == 'liberica' && 'Liberica')   || 
+          (inputs.java == 'microsoft' && 'Microsoft') || 
+          (inputs.java == 'corretto' && 'Corretto')   || 
+          inputs.java
+        }}"
+
+        echo "::set-output name=java::${{
+          (inputs.java == 'graalvm' && 'graalvm-ce')  || 
+          (inputs.java == 'temurin' && 'Temurin')     || 
+          (inputs.java == 'zulu' && 'Zulu')           || 
+          (inputs.java == 'adopt' && 'Adopt')         || 
+          (inputs.java == 'adopt-hotspot' && 'Adopt') || 
+          (inputs.java == 'liberica' && 'Liberica')   || 
+          (inputs.java == 'microsoft' && 'Microsoft') || 
+          (inputs.java == 'corretto' && 'Corretto')   || 
+          inputs.java
+        }}"
+
+    - name: Computed cache parameters
+      id: cache-vars
+      shell: ${{ (runner.os == 'Windows' && 'pwsh') || 'bash' }}
+      run: |
+        echo "::set-output name=java-path::${{
+          (
+            inputs.java == 'graalvm' &&
+            format(
+              '{0}/{1}/{2}/{3}/{4}',
+              runner.tool_cache,
+              format(
+                '{0}-java{1}-{2}', 
+                steps.vars.outputs.java, 
+                steps.vars.outputs.java-major-version,
+                steps.vars.outputs.os
+              ),
+              inputs.graalvm-version,
+              steps.vars.outputs.arch,
+              format(
+                '{0}-java{1}-{2}', 
+                steps.vars.outputs.java, 
+                steps.vars.outputs.java-major-version,
+                inputs.graalvm-version
+              )
+            )
+          ) || (
+            format(
+              '{0}/Java_{1}_jdk/{2}.*/{3}',
+              runner.tool_cache,
+              steps.vars.outputs.java,
+              steps.vars.outputs.java-major-version,
+              steps.vars.outputs.arch,
+            )
+          )
+        }}"
+
+        echo "::set-output name=java-path-complete-mark::${{
+          (
+            inputs.java == 'graalvm' &&
+            format(
+              '{0}/{1}/{2}/{3}.complete',
+              runner.tool_cache,
+              format(
+                '{0}-java{1}-{2}', 
+                steps.vars.outputs.java, 
+                steps.vars.outputs.java-major-version,
+                steps.vars.outputs.os
+              ),
+              inputs.graalvm-version,
+              steps.vars.outputs.arch
+            )
+          ) || (
+            format(
+              '{0}/Java_{1}_jdk/{2}.*/{3}.complete',
+              runner.tool_cache,
+              steps.vars.outputs.java,
+              steps.vars.outputs.java-major-version,
+              steps.vars.outputs.arch,
+            )
+          )
+        }}"
+
+        echo "::set-output name=java-cache-key::${{
+          join(
+            [
+              'cache-java',
+              (inputs.java == 'graalvm' && join([inputs.java-version, inputs.graalvm-version], '-')) || inputs.java-version,
+              steps.vars.outputs.os
+              steps.vars.outputs.arch
+            ],
+            '-'
+          )
+        }}"
+
+    - name: Cache Java tooling
+      if: ${{ inputs.java != 'graalvm' }}
+      uses: actions/cache@v3.0.6
+      with:
+        path: |
+          ${{ steps.cache-vars.outputs.java-path }}
+          ${{ steps.cache-vars.outputs.java-path-complete-mark }}
+        key: ${{ steps.cache-vars.outputs.java-cache-key }}
 
     - name: Setup Java
       uses: actions/setup-java@v3.4.1
@@ -99,15 +206,6 @@ runs:
       with:
         distribution: ${{ inputs.java }}
         java-version: ${{ inputs.java-version }}
-
-    - name: Cache GraalVM tooling
-      if: ${{ inputs.java == 'graalvm' }}
-      uses: actions/cache@v3.0.6
-      with:
-        path: |
-          ${{ runner.tool_cache }}/graalvm-?e-java${{ steps.vars.outputs.java-major-version }}-${{ steps.vars.outputs.os }}/${{ inputs.graalvm-version }}/${{ steps.vars.outputs.arch }}/graalvm-?e-java${{ steps.vars.outputs.java-major-version }}-${{ inputs.graalvm-version }}/
-          ${{ runner.tool_cache }}/graalvm-?e-java${{ steps.vars.outputs.java-major-version }}-${{ steps.vars.outputs.os }}/${{ inputs.graalvm-version }}/${{ steps.vars.outputs.arch }}.complete
-        key: graalvm-cache-java${{ steps.vars.outputs.java-major-version }}-graalvm${{ inputs.graalvm-version }}-${{ steps.vars.outputs.os }}-${{ steps.vars.outputs.arch }}
 
     - name: Setup GraalVM
       uses: graalvm/setup-graalvm@v1
