@@ -1,10 +1,14 @@
 name: "Setup Clojure tooling"
 description: "Install Java, Clojure CLI and Babashka"
 inputs:
+  #
   # Clojure tooling
+  #
   # See: https://github.com/DeLaGuardo/setup-clojure/blob/main/action.yml
+  #
   clojure-cli:
     description: Clojure CLI version to install
+    default: latest
   leiningen:
     description: Leiningen build tool version to install
   boot:
@@ -24,11 +28,25 @@ inputs:
     default: ${{ github.token }}
     required: false
 
+  #
+  # Java tooling
+  #
+  # See: https://github.com/actions/setup-java/blob/main/action.yml
+  #
+  java:
+    default: temurin
   java-version:
-    default: ${{ inputs.clojure-cli }}
+    default: 17
 runs:
   using: composite
   steps:
+    # - name: Setup Java
+    #   uses: actions/setup-java@v3.4.1
+    #   if: ${{ inputs.java }}
+    #   with:
+    #     distribution: ${{ inputs.java }}
+    #     java-version: ${{ inputs.java-version }}
+
     - name: Setup Clojure
       uses: DeLaGuardo/setup-clojure@9.3
       if: ${{ inputs.clojure-cli || inputs.leiningen || inputs.boot || inputs.babashka || inputs.clj-kondo || inputs.cljstyle || inputs.zprint }}
