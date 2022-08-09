@@ -101,26 +101,14 @@ runs:
         }}"
 
         echo "::set-output name=java::${{
-          (inputs.java == 'graalvm' && 'graalvm-ce')  || 
-          (inputs.java == 'temurin' && 'Temurin')     || 
-          (inputs.java == 'zulu' && 'Zulu')           || 
-          (inputs.java == 'adopt' && 'Adopt')         || 
-          (inputs.java == 'adopt-hotspot' && 'Adopt') || 
-          (inputs.java == 'liberica' && 'Liberica')   || 
-          (inputs.java == 'microsoft' && 'Microsoft') || 
-          (inputs.java == 'corretto' && 'Corretto')   || 
-          inputs.java
-        }}"
-
-        echo "::set-output name=java::${{
-          (inputs.java == 'graalvm' && 'graalvm-ce')  || 
-          (inputs.java == 'temurin' && 'Temurin')     || 
-          (inputs.java == 'zulu' && 'Zulu')           || 
-          (inputs.java == 'adopt' && 'Adopt')         || 
-          (inputs.java == 'adopt-hotspot' && 'Adopt') || 
-          (inputs.java == 'liberica' && 'Liberica')   || 
-          (inputs.java == 'microsoft' && 'Microsoft') || 
-          (inputs.java == 'corretto' && 'Corretto')   || 
+          (inputs.java == 'graalvm' && 'graalvm-ce')      || 
+          (inputs.java == 'temurin' && 'Temurin-Hotspot') || 
+          (inputs.java == 'zulu' && 'Zulu')               || 
+          (inputs.java == 'adopt' && 'Adopt')             || 
+          (inputs.java == 'adopt-hotspot' && 'Adopt')     || 
+          (inputs.java == 'liberica' && 'Liberica')       || 
+          (inputs.java == 'microsoft' && 'Microsoft')     || 
+          (inputs.java == 'corretto' && 'Corretto')       || 
           inputs.java
         }}"
 
