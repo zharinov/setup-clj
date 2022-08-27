@@ -1,4 +1,5 @@
-name: "Clojure essential tooling"
+name: 'Clojure essential tooling'
+description: 'All the tools in a single composite action.'
 inputs:
   #
   # Clojure tooling
@@ -6,26 +7,26 @@ inputs:
   # See: https://github.com/DeLaGuardo/setup-clojure/blob/main/action.yml
   #
   clojure-cli:
-    description: Clojure CLI version to install
+    description: 'Clojure CLI version to install.'
     required: false
     default: 1.11.1.1155
   leiningen:
-    description: Leiningen build tool version to install
+    description: 'Leiningen build tool version to install.'
     required: false
   boot:
-    description: Boot build tool version to install
+    description: 'Boot build tool version to install.'
     required: false
   babashka:
-    description: Babashka scripting tool version to install
+    description: 'Babashka scripting tool version to install.'
     required: false
   clj-kondo:
-    description: Clj-kondo linting tool version to install
+    description: 'Clj-kondo linting tool version to install.'
     required: false
   cljstyle:
-    description: Cljstyle formatting tool version to install
+    description: 'Cljstyle formatting tool version to install.'
     required: false
   zprint:
-    description: Zprint formatting tool version to install
+    description: 'Zprint formatting tool version to install.'
     required: false
 
   #
@@ -34,11 +35,13 @@ inputs:
   # See: https://github.com/actions/setup-java/blob/main/action.yml
   #
   java:
+    description: 'Java distribution: graalvm, temurin, zulu, adopt, adopt, liberica, microsoft, corretto.'
+    required: false
     default: temurin
-    required: false
   java-version:
-    default: 17
+    description: 'The Java version to set up. Takes a whole or semver Java version.'
     required: false
+    default: "17"
 
   #
   # GraalVM tooling
@@ -47,16 +50,21 @@ inputs:
   #
   graalvm-version:
     default: 22.1.0
+    description: 'GraalVM version (release, latest, dev).'
     required: false
   graalvm-components:
+    description: 'Comma-separated list of GraalVM components to be installed.'
     default: native-image
     required: false
   graalvm-gds-token:
+    description: 'Download token for the GraalVM Download Service. If provided, the action will set up GraalVM Enterprise Edition.'
     required: false
   graalvm-set-java-home:
+    description: 'Set $JAVA_HOME to the GraalVM installation. Default: true.'
     required: false
-    default: true
+    default: 'true'
   graalvm-native-image-musl:
+    description: 'Set up musl for static image building with GraalVM Native Image.'
     default: 'false'
     required: false
 
@@ -84,7 +92,6 @@ runs:
           (startsWith(inputs.java-version, '17.') && '17') ||
           inputs.java-version
         }}"
-
         echo "::set-output name=arch::${{
           (runner.arch == 'ARM' && 'arm')     || 
           (runner.arch == 'ARM64' && 'arm64') || 
@@ -92,14 +99,12 @@ runs:
           (runner.arch == 'X64' && 'x64')     || 
           runner.arch
         }}"
-
         echo "::set-output name=os::${{
           (runner.os == 'macOS' && 'darwin')  || 
           (runner.os == 'Windows' && 'win32') || 
           (runner.os == 'Linux' && 'linux')   || 
           runner.os 
         }}"
-
         echo "::set-output name=java::${{
           (inputs.java == 'graalvm' && 'graalvm-ce')      || 
           (inputs.java == 'temurin' && 'Temurin-Hotspot') || 
@@ -111,7 +116,6 @@ runs:
           (inputs.java == 'corretto' && 'Corretto')       || 
           inputs.java
         }}"
-
     - name: Computed cache parameters
       id: cache-vars
       shell: ${{ (runner.os == 'Windows' && 'pwsh') || 'bash' }}
@@ -147,7 +151,6 @@ runs:
             )
           )
         }}"
-
         echo "::set-output name=java-path-complete-mark::${{
           (
             inputs.java == 'graalvm' &&
@@ -173,7 +176,6 @@ runs:
             )
           )
         }}"
-
         echo "::set-output name=java-cache-key::${{
           format(
             'cache-{0}-java-{1}-{2}-{3}',
@@ -185,7 +187,6 @@ runs:
             steps.vars.outputs.arch
           )
         }}"
-
     - name: Cache Java tooling
       uses: actions/cache@v3.0.6
       with:
