@@ -2,5 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base"
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["^\\.github\\/workflows\\/.*\\.yml$"],
+      "matchStrings": ["\"?(?<currentValue>[^\"\\s]*)\\\"?\\s*#\\s*renovate:\\s*(?<depName>[-\\w\\d]+\\/[-\\w\\d]+)"],
+      "datasourceTemplate": "github-releases"
+    }
   ]
 }
