@@ -1,7 +1,7 @@
 name: 'Clojure essential tooling'
 description: 'All the tools in a single composite action.'
 branding:
-  icon: 'tool'
+  icon: 'activity'
   color: 'green'
 inputs:
   #
