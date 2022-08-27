@@ -1,5 +1,5 @@
 name: 'Clojure essential tooling'
-description: 'All the tools in a single composite action.'
+description: 'All the tools for Clojure with out-of-the-box caching.'
 branding:
   icon: 'activity'
   color: 'green'
