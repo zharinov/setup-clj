@@ -8,16 +8,19 @@
       "fileMatch": ["^action\\.yml$"],
       "matchStrings": [
         "[\"']?(?<currentValue>[^\"'\\s]*)[\"']?\\s*#\\s*(?<datasource>[-a-z]+):\\s*(?<depName>[-\\w\\d]+\\/[-\\w\\d]+)"
-      ]
+      ],
+      packageNameTemplate: "{{{depName}}}"
     }
   ],
   "packageRules": [
     {
       "matchPackageNames": ["clojure/brew-install"],
+      "depName": "Clojure CLI",
       "versioning": "maven"
     },
     {
       "matchPackageNames": ["graalvm/graalvm-ce-builds"],
+      "depName": "GraalVM",
       "extractVersion": "^vm-(?<version>\\d+(?:\\.\\d+)*)$"
     }
   ]
