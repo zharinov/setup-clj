@@ -12,7 +12,7 @@ inputs:
   clojure-cli:
     description: 'Clojure CLI version to install.'
     required: false
-    default: '1.11.1.1149' # renovate: clojure/brew-install
+    default: '1.11.1.1149' # github-tags: clojure/brew-install
   leiningen:
     description: 'Leiningen build tool version to install.'
     required: false
@@ -52,7 +52,7 @@ inputs:
   # See: https://github.com/graalvm/setup-graalvm/blob/main/action.yml
   #
   graalvm-version:
-    default: '22.2.0' # renovate: graalvm/graalvm-ce-builds
+    default: '22.2.0' # github-releases: graalvm/graalvm-ce-builds
     description: 'GraalVM version (release, latest, dev).'
     required: false
   graalvm-components:
