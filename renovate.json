@@ -9,7 +9,7 @@
       "matchStrings": [
         "[\"']?(?<currentValue>[^\"'\\s]*)[\"']?\\s*#\\s*(?<datasource>[-a-z]+):\\s*(?<depName>[-\\w\\d]+\\/[-\\w\\d]+)"
       ],
-      packageNameTemplate: "{{{depName}}}"
+      "packageNameTemplate": "{{depName}}"
     }
   ],
   "packageRules": [
