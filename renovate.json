@@ -6,7 +6,7 @@
   "regexManagers": [
     {
       "fileMatch": ["^\\.github\\/workflows\\/.*\\.yml$"],
-      "matchStrings": ["[\"']?(?<currentValue>[^\"\\s]*)[\"']?\\s*#\\s*renovate-graalvm"],
+      "matchStrings": ["[\"']?(?<currentValue>[^\"\\s]*)[\"']?\\s*#\\s*renovate:\\s*(?<depName>[-\\w\\d]+\\/[-\\w\\d]+)"],
       "datasourceTemplate": "github-releases"
     }
   ]
