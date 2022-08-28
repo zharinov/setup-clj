@@ -12,7 +12,7 @@ inputs:
   clojure-cli:
     description: 'Clojure CLI version to install.'
     required: false
-    default: '1.11.1.1149' # github-tags: clojure/brew-install
+    default: '1.11.1.1149' # github-tags: clojure/brew-install - Clojure CLI
   leiningen:
     description: 'Leiningen build tool version to install.'
     required: false
