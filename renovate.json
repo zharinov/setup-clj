@@ -13,11 +13,11 @@
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["clojure/brew-install"],
+      "matchPackageNames": ["Clojure CLI"],
       "versioning": "maven"
     },
     {
-      "matchPackageNames": ["graalvm/graalvm-ce-builds"],
+      "matchPackageNames": ["GraalVM"],
       "extractVersion": "^vm-(?<version>\\d+(?:\\.\\d+)*)$"
     }
   ]
