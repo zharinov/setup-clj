@@ -7,7 +7,6 @@
     {
       "fileMatch": ["^\\.github\\/workflows\\/.*\\.yml$"],
       "matchStrings": ["[\"']?(?<currentValue>[^\"\\s]*)[\"']?\\s*#\\s*renovate-graalvm"],
-      "depNameTemplate": "graalvm/graalvm-ce-builds",
       "extractVersion": "^vm-(?<version>\\d+\\.\\d+\\.\\d+)$",
       "datasourceTemplate": "github-releases"
     }
