@@ -7,6 +7,7 @@
     {
       "fileMatch": ["^\\.github\\/workflows\\/.*\\.yml$"],
       "matchStrings": ["[\"']?(?<currentValue>[^\"\\s]*)[\"']?\\s*#\\s*renovate:\\s*(?<depName>[-\\w\\d]+\\/[-\\w\\d]+)"],
+      "extractVersion": "^(?:vm-|v)(?<version>\\d+\\.\\d+\\.\\d+)$",
       "datasourceTemplate": "github-releases"
     }
   ]
