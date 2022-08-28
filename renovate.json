@@ -9,7 +9,8 @@
       "matchStrings": [
         "[\"']?(?<currentValue>[^\"'\\s]*)[\"']?\\s*#\\s*renovate:\\s*(?<depName>[-\\w\\d]+\\/[-\\w\\d]+)"
       ],
-      "datasourceTemplate": "github-releases"
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "loose"
     }
   ],
   "packageRules": [
