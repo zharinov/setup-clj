@@ -13,9 +13,12 @@
   ],
   "packageRules": [
     {
-      "matchDatasources": ["github-releases", "github-tags"],
-      "extractVersion": "^(?:vm-|v)(?<version>\\d+(?:\\.\\d+)*)$",
+      "matchPackageNames": ["clojure/brew-install"],
       "versioning": "maven"
+    },
+    {
+      "matchPackageNames": ["graalvm/graalvm-ce-builds"],
+      "extractVersion": "^vm-(?<version>\\d+(?:\\.\\d+)*)$"
     }
   ]
 }
