@@ -6,7 +6,7 @@
   "regexManagers": [
     {
       "fileMatch": ["^\\.github\\/workflows\\/.*\\.yml$"],
-      "matchStrings": ["[\"']?(?<currentValue>[^\"\\s]*)[\"']?\\s*#\\s*renovate:\\s*graalvm/graalvm-ce-builds"],
+      "matchStrings": ["[\"']?(?<currentValue>[^\"\\s]*)[\"']?\\s*#\\s*graalvm"],
       "depNameTemplate": "graalvm/graalvm-ce-builds",
       "extractVersion": "^vm-(?<version>\\d+\\.\\d+\\.\\d+)$",
       "datasourceTemplate": "github-releases"
