@@ -15,7 +15,7 @@
   "packageRules": [
     {
       "matchDatasources": ["github-releases"],
-      "extractVersion": "^(?:vm-|v)(?<version>\\d+\\.\\d+\\.\\d+)$"
+      "extractVersion": "^(?:vm-|v)(?<version>\\d+(?:\\.\\d+)*)$"
     }
   ]
 }
