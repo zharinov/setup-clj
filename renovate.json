@@ -8,7 +8,8 @@
       "fileMatch": ["^action\\.yml$"],
       "matchStrings": [
         "[\"']?(?<currentValue>[^\"'\\s]*)[\"']?\\s*#\\s*(?<datasource>[-a-z]+):\\s*(?<packageName>[-\\w\\d]+\\/[-\\w\\d]+)\\s+-\\s+(?<depName>[\\w ]+\\w)"
-      ]
+      ],
+      "extractVersionTemplate": "^v(?<version>.*)$"
     }
   ],
   "packageRules": [
